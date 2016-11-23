@@ -34,6 +34,8 @@ class CalculatorBrain{
         "sin" : .UnaryOperation(sin),
         "tan" : .UnaryOperation(tan),
         "log" : .UnaryOperation(log),
+        "x²": .UnaryOperation({$0 * $0}),
+        "x⁻¹": .UnaryOperation({1/$0}),
         "+" : .BinaryOperation({$0 + $1}),
         "−" : .BinaryOperation({$0 - $1}),
         "×" : .BinaryOperation({$0 * $1}),

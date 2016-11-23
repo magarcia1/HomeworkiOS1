@@ -55,7 +55,7 @@ class ViewController: UIViewController {
     }
     
     var saveProgram: CalculatorBrain.PropertyList?
-    /*
+    
     @IBAction func save() {
         saveProgram = brain.program
     }
@@ -66,7 +66,7 @@ class ViewController: UIViewController {
             displayValue = brain.result
         }
     }
-    */
+ 
     @IBAction func clearButton() {
         userIsInTheMiddleOfTyping = false
         brain.clear()

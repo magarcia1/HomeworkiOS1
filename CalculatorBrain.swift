@@ -51,9 +51,11 @@ class CalculatorBrain{
         "=" : .Equals
     ]
     
-    struct PendingBinaryOperationInfo {     //1
+    struct PendingBinaryOperationInfo {
         var firstOperand: Double
         var binaryFunction: (Double, Double) -> Double
+//        var descriptionFunction: (String, String) -> String
+//        var descriptionAccumulator: (String) -> String
     }
     
     private var pending: PendingBinaryOperationInfo?    //2
@@ -68,12 +70,14 @@ class CalculatorBrain{
             switch operation {
             case .Constant(let value):
                 accumulator = value
+                descriptionAccumulator = symbol
             case .UnaryOperation(let function):
                 accumulator = function(accumulator)
             case .BinaryOperation(let function):
                 isPartialResult = true
                 executePendingbinaryOperation()
-                pending = PendingBinaryOperationInfo(firstOperand: accumulator,binaryFunction: function)
+                pending = PendingBinaryOperationInfo(firstOperand: accumulator,
+                                                     binaryFunction: function)
             case .Equals:
                 executePendingbinaryOperation()
             }
@@ -82,8 +86,6 @@ class CalculatorBrain{
     
     func executePendingbinaryOperation(){
         if pending != nil {
-            //binaryFunction knows what to perform since
-            //we specified the operation in case 3
             accumulator = pending!.binaryFunction(accumulator, pending!.firstOperand)
             pending = nil
             isPartialResult = false
@@ -92,6 +94,7 @@ class CalculatorBrain{
     
     func setOperand(operand: Double){
         accumulator = operand
+        descriptionAccumulator = String(operand)
         internalProgram.append(operand as AnyObject)
     }
     
@@ -128,13 +131,3 @@ class CalculatorBrain{
         internalProgram.removeAll()
     }
 }
-
-//1 An array is an struct.
-//2 Nil if not referenced or not holding a value
-
-//Clousure: Inline function that captures the state of its environment
-//"+" : Operation.BinaryOperation({(op1: Double, op2: Double) -> Double in return op1 + op2 } )
-//"+" : Operation.BinaryOperation({(op1, op2) in return op1 + op2 } )
-//"+" : Operation.BinaryOperation({($0, $1) in return $0 + $1 } )
-//"+" : Operation.BinaryOperation({$0 + $1}) //type inference
-

@@ -41,6 +41,7 @@ class ViewController: UIViewController {
             if let value = newValue {
                 display.text = String(value)
                 //display Description Needed in here:.....
+                displayDescription.text = brain.description + (brain.isPartialResult ? " ..." : " =")
             } else {
                 display.text = "0"
                 displayDescription.text = "0"
@@ -76,7 +77,7 @@ class ViewController: UIViewController {
     @IBAction func clearButton() {
         userIsInTheMiddleOfTyping = false
         brain.clear()
-        displayValue = brain.result
+        displayValue = nil
     }
 }
 

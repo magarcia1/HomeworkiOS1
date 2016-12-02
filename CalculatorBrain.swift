@@ -11,12 +11,20 @@ import Foundation
 class CalculatorBrain{
     
     private var accumulator: Double = 0.0
-    
+    private var descriptionAccumulator = "0"
     var result: Double{ get{ return accumulator } }
     
     var isPartialResult: Bool = false
     
-    var description: String?
+    var description: String{
+        get{
+            if pending == nil{
+                return descriptionAccumulator
+            } else {
+                return ""
+            }
+        }
+    }
     
     enum Operation{
         case Constant(Double)

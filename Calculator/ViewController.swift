@@ -32,20 +32,26 @@ class ViewController: UIViewController {
         userIsInTheMiddleOfTyping = true
     }
     
-    private var displayValue : Double {
+    private var displayValue : Double? {
         get {
             //! optional: we have to account for every string passed
             return Double(display.text!)!
         }
         set {
-            //Double can always be converted to a string
-            display.text = String(newValue)
+            if let value = newValue {
+                display.text = String(value)
+                //display Description Needed in here:.....
+            } else {
+                display.text = "0"
+                displayDescription.text = "0"
+                userIsInTheMiddleOfTyping = false
+            }
         }
     }
     
     @IBAction private func performOperation(_ sender: UIButton){
         if userIsInTheMiddleOfTyping {
-            brain.setOperand(operand: displayValue)
+            brain.setOperand(operand: displayValue!)
             userIsInTheMiddleOfTyping = false
         }
         if let matematicalSymbol = sender.currentTitle {
@@ -73,12 +79,4 @@ class ViewController: UIViewController {
         displayValue = brain.result
     }
 }
-//1 Optionals are allways initiallize to nil
-//1 Current title is an optional. Its associated value is a string
-//2 Print("Touched key \(digit)") for debuggin purposes
-//3 We do not have to unwrap to set the value of a variable.
-//  Specifictly, we are saying set this optional to set state with
-//  an associate value of textCurrentlyInDisplay + digit
-//4 Display is always set after the first nanosecond of activating the app.
-//  This is the reason why we unwrap the optional at the begining of the exectution
 
